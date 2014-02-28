@@ -3,12 +3,11 @@
  *
  * @copyright 2007 Dan Yoder, All Rights Reserved
  * @author Dan Yoder <dan@zeraweb.com>
- * @author Stephen Riesenberg <stephen.riesenberg@gmail.com>
+ * @author Stephen Riesenberg <stephen [dot] riesenberg [at] gmail [dot] com>
  * @version 0.6
  * @license MIT
  * @link http://code.google.com/p/cruiser/wiki/Parsing
  */
-
 var Parsing;
 (function() {
 	Parsing = {
@@ -16,6 +15,10 @@ var Parsing;
 			this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
 		}
 	};
+	
+	function parseRegex(r) {
+		return (typeof r == "string") ? r : r.toString().match(/^\/(.*)\/$/)[1];
+	}
 	
 	var $P = Parsing;
 	var o = ($P.Operators = {
@@ -32,15 +35,8 @@ var Parsing;
 				}
 			};
 		},
-		token: function(r) { // whitespace-eating token
-			var xfn = o.vtoken(/^\s*/, r, /^\s*/);
-			return function(s) {
-				var rx = xfn.call(this, s);
-				return [ rx[0][1], rx[1] ];
-			};
-		},
-		stoken: function(s) { // string token
-			return o.rtoken(new RegExp("^" + s));
+		stoken: function(r) { // string token
+			return o.rtoken(new RegExp("^" + parseRegex(r)));
 		},
 		vtoken: function() { // vector regex token
 			var px = arguments;
@@ -53,7 +49,17 @@ var Parsing;
 				return [ qx, rx[1] ];
 			};
 		},
-	
+		token: function(r) { // whitespace-eating token
+			var xfn = o.vtoken(/^\s*/, new RegExp("^" + parseRegex(r)), /^\s*/);
+			return function(s) {
+				var rx = xfn.call(this, s);
+				if (window.console) { // log parsing, for beneficial debug feedback
+					console.log("Parsing token: \""+rx[0][1]+"\"");
+				}
+				return [ rx[0][1].strip(), rx[1] ];
+			};
+		},
+		
 		//
 		// Atomic Operators
 		//
@@ -88,7 +94,7 @@ var Parsing;
 				return [ rx, s ];
 			};
 		},
-	
+		
 		// generator operators -- see below
 		optional: function(p) {
 			return function(s) {
@@ -185,7 +191,7 @@ var Parsing;
 			var px = arguments, x = x;
 			return o.each(o.optional(px));
 		},
-	
+		
 		// delimited operators
 		pair: function(p1, p2, d) {
 			d = d || o.rtoken(/^\s*/);
@@ -236,7 +242,7 @@ var Parsing;
 				return [ rx, (r?r[1]:s) ];
 			};
 		},
-			
+		
 		//
 		// Composite Operators
 		//
@@ -397,7 +403,7 @@ var Parsing;
 				return gr[fname].call(this, s);
 			};
 		},
-	
+		
 		//
 		// Translation Operators
 		//
