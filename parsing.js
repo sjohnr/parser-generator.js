@@ -2,20 +2,19 @@
  * JavaScript Parsing Library
  *
  * @copyright 2007 Dan Yoder, All Rights Reserved
- * @author Dan Yoder <dan@zeraweb.com>
- * @author Stephen Riesenberg <stephen [dot] riesenberg [at] gmail [dot] com>
+ * @author Dan Yoder
+ * @author Stephen Riesenberg
  * @version 0.6
  * @license MIT
  * @link http://code.google.com/p/cruiser/wiki/Parsing
+ * @link https://github.com/sjohnr/parser-generator.js
  */
-var Parsing;
+var Parsing = {
+	Exception: function(s) {
+		this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
+	}
+};
 (function() {
-	Parsing = {
-		Exception: function(s) {
-			this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
-		}
-	};
-	
 	function parseRegex(r) {
 		return (typeof r == "string") ? r : r.toString().match(/^\/(.*)\/$/)[1];
 	}
