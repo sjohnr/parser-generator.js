@@ -9,7 +9,7 @@
  * @link http://code.google.com/p/cruiser/wiki/Parsing
  * @link https://github.com/sjohnr/parser-generator.js
  */
-var Parsing = {
+var Parser = {
 	Exception: function(s) {
 		this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
 	}
@@ -19,7 +19,7 @@ var Parsing = {
 		return (typeof r == "string") ? r : r.toString().match(/^\/(.*)\/$/)[1];
 	}
 	
-	var $P = Parsing;
+	var $P = Parser;
 	var o = ($P.Operators = {
 		//
 		// Tokenizers
