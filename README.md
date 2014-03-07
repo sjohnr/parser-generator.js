@@ -1,7 +1,7 @@
 parser-generator.js
 ===================
 
-A dynamic recursive descent LLk parser for creating grammar parsing functions in JavaScript. This library is based on the work of Dan Yoder in the Cruiser.Parse library.
+A dynamic recursive descent LL(k) parser for creating grammar parsing functions in JavaScript. This library is based on the work of Dan Yoder in the Cruiser.Parse library.
 
 Note: The following was adapted from [this wiki page](https://code.google.com/p/cruiser/wiki/Parse)
 
@@ -50,7 +50,7 @@ g.rules = o.process(o.many(g.rule), t.rules);
 s._parse = o.process(many(any(g.comments, g.rules)), t.parse);
 ```
 
-Most of it is pretty self-explanatory. The `t.\*` functions (`style`, `rules`, and `parse`) transform the output tree from associative arrays to hashes, since, by default, the parser simply puts each matched token into an array.
+Most of it is pretty self-explanatory. The `t.*` functions (`style`, `rules`, and `parse`) transform the output tree from associative arrays to hashes, since, by default, the parser simply puts each matched token into an array.
 
 For example, consider the following translator functions:
 
@@ -97,7 +97,7 @@ Each of the functions described below return a function that will match based on
   * Matches a list whose elements are the given rule, delimited by the given delimiter (defaults to ’,’).
   * Also takes a boolean to indicate whether a trailing delimiter is allowed (defaults to false).
   * Only returns the elements matching the rule.
-* `between( rdelim, rule, ldelim )`
+* `between( ldelim, rule, rdelim )`
   * Matches a rule between two delimiters.
   * Useful for things like matching a block between braces or an argument list between parenthesis.
   * Returns only the matched rule.
