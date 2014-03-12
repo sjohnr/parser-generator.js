@@ -9,17 +9,16 @@
  * @link http://code.google.com/p/cruiser/wiki/Parsing
  * @link https://github.com/sjohnr/parser-generator.js
  */
-var Parser = {
-	Exception: function(s) {
-		this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
-	}
-};
-(function() {
+
 	function parseRegex(r) {
 		return (typeof r == "string") ? r : r.toString().match(/^\/(.*)\/$/)[1];
 	}
 	
-	var $P = Parser;
+	var $P = module;
+	$P.Exception = function(s) {
+		this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
+	};
+
 	var o = ($P.Operators = {
 		//
 		// Tokenizers
@@ -489,4 +488,3 @@ var Parser = {
 		o[s] = xvector(o[s]);
 	});
 	
-})();
