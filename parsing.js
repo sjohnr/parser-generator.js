@@ -14,7 +14,7 @@
 		return (typeof r == "string") ? r : r.toString().match(/^\/(.*)\/$/)[1];
 	}
 	
-	var $P = module;
+	var $P = exports;
 	$P.Exception = function(s) {
 		this.message = "Parse error at '" + s.substring(0, 10) + " ...'";
 	};
