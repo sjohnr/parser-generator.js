@@ -1,7 +1,7 @@
 (function() {
 
-  var prototype = require("prototype");
-  Object.extend(global, prototype);
+  // var prototype = require("prototype4node");
+  // Object.extend(global, prototype);
 
   /**
    * JavaScript Parsing Library
@@ -192,14 +192,13 @@
       };
     },
     all: function() {
-      var px = arguments, x = x;
-      return o.each(o.optional(px));
+      return o.each(o.optional(arguments));
     },
 
     // delimited operators
     pair: function(p1, p2, d) {
       d = d || o.rtoken(/^\s*/);
-      var xfn = o.each(p1, o.ignore(d), p2)
+      var xfn = o.each(p1, o.ignore(d), p2);
       return function(s) {
         var rx = xfn.call(this, s);
         return [ [ rx[0][0], rx[0][2] ], rx[1] ];
@@ -465,8 +464,9 @@
         args = arguments[0];
       }
       if (args) {
-        for (var i = 0, px = args.shift() ; i < px.length ; i++) {
-          args.unshift(px[i]);
+        if (args.length) {
+          var px = args.shift();
+          args.unshift(px[0]);
           rx.push(op.apply(null, args));
           args.shift();
           return rx;

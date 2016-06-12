@@ -2,7 +2,7 @@
   "name": "parser-generator.js",
   "version": "0.2.0",
   "description": "A dynamic recursive descent LL(k) parser for creating grammar parsing functions in JavaScript.",
-  "main": "parsing.js",
+  "main": "parser-generator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/sjohnr/parser-generator.js#readme",
   "dependencies": {
-    "prototype": "0.0.5"
+    "prototype4node": "0.0.3-0"
   }
 }
