@@ -55,12 +55,12 @@ For example, consider the following translator functions:
 ```javascript
 var Translator = {
   /**
-   * Translate style attributes an associative array.
+   * Translate style attributes to an associative array.
    *
-   * @param attrs The attributes parse tree
+   * @param ax The attributes parse tree
    */
-  style: function (attrs) {
-    return _.reduce(attrs, function (h, a) {
+  style: function (ax) {
+    return _.reduce(ax, function (h, a) {
       if (a) {
         h[a[0]] = a[2];
       }
