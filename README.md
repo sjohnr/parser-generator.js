@@ -23,7 +23,7 @@ Example
 Here's the grammar for CSS (probably not perfect, but good enough for our purposes):
 
 ```javascript
-var g = Behaviors.Grammar, s = Behaviors.Stylesheet, t = Behaviors.Translator, o = Parser.Operators;
+var g = {}, o = require("parser-generator").Operators, t = require("./Translator");
 
 // basic tokens
 g.lbrace = o.token("{");
@@ -39,15 +39,13 @@ g.comments = o.ignore(o.any(g.inlineComment, g.multilineComment));
 // attributes
 g.attrName = o.token(/[\w\-\d]+/);
 g.attrValue = o.token(/[^;\}]+/);
-g.attr = o.pair(g.attrName, g.attrValue, g.colon);
-g.attrList = o.list(g.attr, g.semicolon, true);
-g.style = o.process(o.between(g.lbrace, g.attrList, g.rbrace), t.style);
+g.attr = o.each(g.attrName, g.colon, g.attrValue, g.semicolon);
+g.attrList = o.many(o.any(g.comments, g.attr));
 // style rules
+g.style = o.process(o.between(g.lbrace, g.attrList, g.rbrace), t.style);
 g.selector = o.token(/[^\{]+/);
 g.rule = o.each(g.selector, g.style);
-g.rules = o.process(o.many(g.rule), t.rules);
-// parser
-s._parse = o.process(many(any(g.comments, g.rules)), t.parse);
+g.rules = o.process(o.many(o.any(g.comments, g.rule)), t.rules);
 ```
 
 Most of it is pretty self-explanatory. The `t.*` functions (`style`, `rules`, and `parse`) transform the output tree from associative arrays to hashes, since, by default, the parser simply puts each matched token into an array.
@@ -55,26 +53,36 @@ Most of it is pretty self-explanatory. The `t.*` functions (`style`, `rules`, an
 For example, consider the following translator functions:
 
 ```javascript
-Behaviors.Translator = {
-	style: function(attrs) {
-		return attrs.inject({}, function(h, a) {
-			h[a[0]] = a[1];
-			return h;
-		});
-	},
-	rules: function(rx) {
-		return rx.inject({}, function(h, r) {
-			if (r) h[r[0]] = r[1];
-			return h;
-		});			
-	},
-	parse: function(rx) {
-		return rx.inject($H({}), function(h, r) {
-			h.merge(r);
-			return h;
-		});
-	}
-}
+var Translator = {
+  /**
+   * Translate style attributes an associative array.
+   *
+   * @param attrs The attributes parse tree
+   */
+  style: function (attrs) {
+    return _.reduce(attrs, function (h, a) {
+      if (a) {
+        h[a[0]] = a[2];
+      }
+
+      return h;
+    }, {});
+  },
+  /**
+   * Translate rules to an associative array.
+   *
+   * @param rx The rules parse tree
+   */
+  rules: function (rx) {
+    return _.reduce(rx, function (h, r) {
+      if (r) {
+        _.extend(h[r[0]] || {}, r[1]);
+      }
+
+      return h;
+    }, {});
+  }
+};
 ```
 
 Also, functions like `pair` and `between` give the parser some additional intelligence beyond just sequences of tokens and alternate paths. The details of each function are provided below.
