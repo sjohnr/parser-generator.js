@@ -1,8 +1,5 @@
 "use strict";
 
-var _ = require("underscore");
-_.strip = _.trim = require("underscore.string/trim");
-
 /**
  * JavaScript Parsing Library
  *
@@ -60,7 +57,7 @@ var o = $P.Operators = {
       if (window.console) { // log parsing, for beneficial debug feedback
         console.log("Parsing token: \""+rx[0][1]+"\"");
       }
-      return [ _.strip(rx[0][1]), rx[1] ];
+      return [ rx[0][1].trim(), rx[1] ];
     };
   },
 
@@ -486,14 +483,17 @@ function xvector(op) {
   };
 }
 
-function $w(s) {
-  return _(s.split(" "));
+function $w(s, fn) {
+  var w = s.split(" ");
+  for (var i = 0; i < w.length; i++) {
+    fn(w[i]);
+  }
 }
 
-$w("optional not ignore cache").each(function(x, s) {
+$w("optional not ignore cache", function(s) {
   o[s] = xgenerator(o[s]);
 });
-$w("vtoken each any all").each(function(x, s) {
+$w("vtoken each any all", function(s) {
   o[s] = xvector(o[s]);
 });
 

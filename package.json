@@ -27,7 +27,5 @@
   },
   "homepage": "https://github.com/sjohnr/parser-generator.js#readme",
   "dependencies": {
-    "underscore": "^1.8.3",
-    "underscore.string": "^3.3.4"
   }
 }
