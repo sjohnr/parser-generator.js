@@ -48,7 +48,7 @@ g.rule = o.each(g.selector, g.style);
 g.rules = o.process(o.many(o.any(g.comments, g.rule)), t.rules);
 ```
 
-Most of it is pretty self-explanatory. The `t.*` functions (`style`, `rules`, and `parse`) transform the output tree from associative arrays to hashes, since, by default, the parser simply puts each matched token into an array.
+Most of it is pretty self-explanatory. The `t.*` functions (`style` and `rules`) transform the output tree from associative arrays to hashes, since, by default, the parser simply puts each matched token into an array.
 
 For example, consider the following translator functions:
 
@@ -76,7 +76,7 @@ var Translator = {
   rules: function (rx) {
     return _.reduce(rx, function (h, r) {
       if (r) {
-        _.extend(h[r[0]] || {}, r[1]);
+        h[r[0]] = _.extend(h[r[0]] || {}, r[1]);
       }
 
       return h;
