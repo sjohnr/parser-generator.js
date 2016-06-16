@@ -4,6 +4,8 @@
   "description": "A dynamic recursive descent LL(k) parser for creating grammar parsing functions in JavaScript.",
   "main": "parser-generator.js",
   "scripts": {
+    "bundle": "webpack",
+    "pack": "webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
