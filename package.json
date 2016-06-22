@@ -1,5 +1,5 @@
 {
-  "name": "parser-generator.js",
+  "name": "parser-generator",
   "version": "0.2.0",
   "description": "A dynamic recursive descent LL(k) parser for creating grammar parsing functions in JavaScript.",
   "main": "parser-generator.js",
