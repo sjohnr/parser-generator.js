@@ -1,0 +1,27 @@
+{
+  "name": "parser-generator",
+  "description": "A dynamic recursive descent LL(k) parser for creating grammar parsing functions in JavaScript.",
+  "main": "parser-generator.js",
+  "authors": [
+    "Stephen Riesenberg <sjohnr@hotmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "recursive",
+    "descent",
+    "llk",
+    "parser",
+    "grammar",
+    "parsing",
+    "functions",
+    "javascript"
+  ],
+  "homepage": "https://github.com/sjohnr/parser-generator.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
